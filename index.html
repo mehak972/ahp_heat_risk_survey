@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Heat Risk Index — AHP Expert Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #f5f0e8;
+    --surface: #fffdf8;
+    --surface2: #f0ebe0;
+    --border: #d6cfc0;
+    --accent: #c0392b;
+    --accent2: #e67e22;
+    --accent3: #27ae60;
+    --text: #1a1612;
+    --text-muted: #6b5e4e;
+    --hazard: #c0392b;
+    --exposure: #2980b9;
+    --vulnerability: #8e44ad;
+    --adaptive: #27ae60;
+    --sensitivity: #d35400;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(192,57,43,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 85% 80%, rgba(41,128,185,0.06) 0%, transparent 50%);
+  }
+
+  /* HEADER */
+  header {
+    background: var(--text);
+    color: var(--bg);
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+  }
+
+  .header-icon {
+    width: 44px; height: 44px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    letter-spacing: -0.3px;
+  }
+
+  header p {
+    font-size: 0.78rem;
+    color: rgba(245,240,232,0.6);
+    font-family: 'Space Mono', monospace;
+    margin-top: 2px;
+  }
+
+  .progress-bar-wrap {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    min-width: 160px;
+  }
+
+  .progress-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(245,240,232,0.7);
+  }
+
+  .progress-track {
+    width: 160px; height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent2);
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* STEP CARDS */
+  .step {
+    display: none;
+    animation: fadeSlideIn 0.4s ease;
+  }
+
+  .step.active { display: block; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-header {
+    margin-bottom: 32px;
+  }
+
+  .step-badge {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--text);
+    color: var(--bg);
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .step-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .step-header p {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+  }
+
+  /* FORM */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .form-grid .full { grid-column: 1 / -1; }
+
+  .field label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--accent);
+  }
+
+  /* AHP SCALE LEGEND */
+  .scale-legend {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 24px;
+    margin-bottom: 28px;
+  }
+
+  .scale-legend h4 {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .scale-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .scale-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .scale-dot {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* COMPARISON ROW */
+  .comparison-section {
+    margin-bottom: 32px;
+  }
+
+  .comparison-section h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .level-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .comparison-pair {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .comparison-pair:hover {
+    border-color: #bbb;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  .pair-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .pair-label {
+    font-weight: 600;
+    font-size: 0.88rem;
+    max-width: 200px;
+    line-height: 1.3;
+  }
+
+  .pair-label.right { text-align: right; }
+
+  .pair-vs {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+  }
+
+  /* SLIDER TRACK */
+  .slider-wrap {
+    position: relative;
+    padding: 0 4px;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .ahp-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, #c0392b, #e8e0d0, #2980b9);
+    outline: none;
+    cursor: pointer;
+  }
+
+  .ahp-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--text);
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+
+  .ahp-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+  .slider-value-display {
+    text-align: center;
+    margin-top: 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+    min-height: 20px;
+  }
+
+  /* CR RESULT BOX */
+  .cr-box {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.9rem;
+    display: none;
+  }
+
+  .cr-box.ok {
+    background: #eafaf1;
+    border: 1.5px solid #27ae60;
+    color: #1e8449;
+    display: flex;
+  }
+
+  .cr-box.warn {
+    background: #fef9e7;
+    border: 1.5px solid #f39c12;
+    color: #b7770d;
+    display: flex;
+  }
+
+  .cr-box.fail {
+    background: #fdedec;
+    border: 1.5px solid #c0392b;
+    color: #922b21;
+    display: flex;
+  }
+
+  .cr-icon { font-size: 1.4rem; }
+
+  .cr-text strong { display: block; font-weight: 600; margin-bottom: 2px; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 28px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  .btn-primary:hover { background: #333; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1.5px solid var(--border);
+  }
+
+  .btn-secondary:hover { border-color: #999; background: var(--surface2); }
+
+  .btn-check {
+    background: var(--accent2);
+    color: white;
+  }
+
+  .btn-check:hover { background: #d35400; transform: translateY(-1px); }
+
+  .btn-submit {
+    background: var(--accent3);
+    color: white;
+    font-size: 1rem;
+    padding: 16px 36px;
+  }
+
+  .btn-submit:hover { background: #1e8449; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(39,174,96,0.35); }
+
+  .btn-disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    gap: 12px;
+  }
+
+  /* SUCCESS */
+  .success-wrap {
+    text-align: center;
+    padding: 60px 20px;
+  }
+
+  .success-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+  }
+
+  .success-wrap h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+  }
+
+  .success-wrap p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 28px;
+  }
+
+  /* TOAST */
+  #toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--text);
+    color: var(--bg);
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    z-index: 999;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.3s ease;
+    max-width: 320px;
+  }
+
+  #toast.show { transform: translateY(0); opacity: 1; }
+
+  /* WEIGHTS SUMMARY */
+  .weights-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    margin-top: 12px;
+  }
+
+  .weights-table th {
+    text-align: left;
+    padding: 8px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+    border-bottom: 1.5px solid var(--border);
+  }
+
+  .weights-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .weight-bar-bg {
+    background: var(--surface2);
+    border-radius: 3px;
+    height: 8px;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .weight-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--accent);
+    transition: width 0.6s ease;
+  }
+
+  /* SPINNER */
+  .spinner {
+    display: inline-block;
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    header { padding: 20px; flex-wrap: wrap; }
+    .progress-bar-wrap { min-width: 100%; }
+    main { padding: 24px 14px 60px; }
+    .card { padding: 20px; }
+    .pair-label { max-width: 120px; font-size: 0.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-icon">🌡️</div>
+  <div>
+    <h1>Heat Risk Index — AHP Expert Survey</h1>
+    <p>GIS-based MCDM Framework · Chennai, Mumbai, Delhi, Kolkata</p>
+  </div>
+  <div class="progress-bar-wrap">
+    <span class="progress-label" id="progressLabel">Step 1 of 6</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:16%"></div></div>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════
+     STEP 1 — EXPERT INFO
+══════════════════════════════════════ -->
+<div class="step active" id="step1">
+  <div class="step-header">
+    <span class="step-badge">Step 1</span>
+    <h2>Expert Information</h2>
+    <p>Please provide your professional details. This information will be recorded alongside your responses for research attribution.</p>
+  </div>
+
+  <div class="card">
+    <div class="form-grid">
+      <div class="field full">
+        <label>Full Name *</label>
+        <input type="text" id="expertName" placeholder="Dr. / Prof. / Mr. / Ms. …"/>
+      </div>
+      <div class="field">
+        <label>Designation / Title *</label>
+        <input type="text" id="expertDesig" placeholder="e.g. Professor, Senior Scientist"/>
+      </div>
+      <div class="field">
+        <label>Institution / Organisation *</label>
+        <input type="text" id="expertInst" placeholder="e.g. IIT Madras"/>
+      </div>
+      <div class="field">
+        <label>Department / Specialisation</label>
+        <input type="text" id="expertDept" placeholder="e.g. Urban Planning, Climate Science"/>
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="expertEmail" placeholder="name@institution.edu"/>
+      </div>
+      <div class="field">
+        <label>Years of Experience in Related Field</label>
+        <select id="expertExp">
+          <option value="">— Select —</option>
+          <option>Less than 5 years</option>
+          <option>5–10 years</option>
+          <option>10–20 years</option>
+          <option>More than 20 years</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <span></span>
+    <button class="btn btn-primary" onclick="goStep(2)">Begin Survey →</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     STEP 2 — LEVEL 1: MAIN CRITERIA
+══════════════════════════════════════ -->
+<div class="step" id="step2">
+  <div class="step-header">
+    <span class="step-badge">Step 2</span>
+    <h2>Main Criteria Comparison</h2>
+    <p>Compare the three main components of the Heat Risk Index against each other using the AHP 1–9 scale. Slide towards the criterion you consider more important.</p>
+  </div>
+
+  <div class="scale-legend">
+    <h4>AHP Importance Scale</h4>
+    <div class="scale-items">
+      <div class="scale-item"><div class="scale-dot" style="background:#fdedec;color:#922b21">9</div> Extreme importance for LEFT</div>
+      <div class="scale-item"><div class="scale-dot" style="background:#fef9e7;color:#b7770d">7</div> Very strong</div>
+      <div class="scale-item"><div class="scale-dot" style="background:#f0ebe0;color:#555">5</div> Strong importance</div>
+      <div class="scale-item"><div class="scale-dot" style="background:#eaf4fb;color:#1a5276">3</div> Moderate importance</div>
+      <div class="scale-item"><div class="scale-dot" style="background:#eafaf1;color:#1e8449">1</div> Equal importance</div>
+    </div>
+    <p style="margin-top:10px;font-size:0.78rem;color:var(--text-muted)">Slider center = Equal (1). Moving left = LEFT criterion is more important. Moving right = RIGHT criterion is more important. Values 1/2, 1/3… 1/9 mean the right side is preferred.</p>
+  </div>
+
+  <div class="card">
+    <div class="comparison-section">
+      <h3>
+        <span style="color:var(--hazard)">●</span> Hazard vs
+        <span style="color:var(--exposure)">●</span> Exposure vs
+        <span style="color:var(--vulnerability)">●</span> Vulnerability
+        <span class="level-tag" style="background:#fdedec;color:#922b21">Level 1</span>
+      </h3>
+      <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:18px;">3 comparisons · 3×3 matrix</p>
+
+      <div id="pairs-l1"></div>
+
+      <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+        <button class="btn btn-check" onclick="checkCR('l1', 3)">🔍 Check Consistency</button>
+      </div>
+      <div class="cr-box" id="cr-l1"></div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn btn-secondary" onclick="goStep(1)">← Back</button>
+    <button class="btn btn-primary" id="nextBtn2" onclick="goStep(3)">Next →</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     STEP 3 — LEVEL 2: HAZARD
+══════════════════════════════════════ -->
+<div class="step" id="step3">
+  <div class="step-header">
+    <span class="step-badge">Step 3</span>
+    <h2>Heat Hazard Sub-indicators</h2>
+    <p>Compare the two indicators under <strong>Heat Hazard</strong>.</p>
+  </div>
+
+  <div class="scale-legend">
+    <h4>AHP Importance Scale</h4>
+    <div class="scale-items">
+      <div class="scale-item"><div class="scale-dot" style="background:#fdedec;color:#922b21">9</div> Extreme importance for LEFT</div>
+      <div class="scale-item"><div class="scale-dot" style="background:#eafaf1;color:#1e8449">1</div> Equal</div>
+      <div class="scale-item"><div class="scale-dot" style="background:#eaf4fb;color:#1a5276">9R</div> Extreme for RIGHT</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="comparison-section">
+      <h3>
+        <span style="color:var(--hazard)">●</span> Heat Hazard Sub-indicators
+        <span class="level-tag" style="background:#fdedec;color:#922b21">Level 2</span>
+      </h3>
+      <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:18px;">1 comparison · 2×2 matrix</p>
+      <div id="pairs-hazard"></div>
+      <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+        <button class="btn btn-check" onclick="checkCR('hazard', 2)">🔍 Check Consistency</button>
+      </div>
+      <div class="cr-box" id="cr-hazard"></div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn btn-secondary" onclick="goStep(2)">← Back</button>
+    <button class="btn btn-primary" onclick="goStep(4)">Next →</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     STEP 4 — LEVEL 2: EXPOSURE
+══════════════════════════════════════ -->
+<div class="step" id="step4">
+  <div class="step-header">
+    <span class="step-badge">Step 4</span>
+    <h2>Exposure Sub-indicators</h2>
+    <p>Compare the two indicators under <strong>Exposure</strong>.</p>
+  </div>
+
+  <div class="scale-legend">
+    <h4>AHP Importance Scale</h4>
+    <div class="scale-items">
+      <div class="scale-item"><div class="scale-dot" style="background:#fdedec;color:#922b21">9</div> Extreme importance for LEFT</div>
+      <div class="scale-item"><div class="scale-dot" style="background:#eafaf1;color:#1e8449">1</div> Equal</div>
+      <div class="scale-item"><div class="scale-dot" style="background:#eaf4fb;color:#1a5276">9R</div> Extreme for RIGHT</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="comparison-section">
+      <h3>
+        <span style="color:var(--exposure)">●</span> Exposure Sub-indicators
+        <span class="level-tag" style="background:#eaf4fb;color:#1a5276">Level 2</span>
+      </h3>
+      <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:18px;">1 comparison · 2×2 matrix</p>
+      <div id="pairs-exposure"></div>
+      <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+        <button class="btn btn-check" onclick="checkCR('exposure', 2)">🔍 Check Consistency</button>
+      </div>
+      <div class="cr-box" id="cr-exposure"></div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn btn-secondary" onclick="goStep(3)">← Back</button>
+    <button class="btn btn-primary" onclick="goStep(5)">Next →</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     STEP 5 — LEVEL 2: VULNERABILITY
+══════════════════════════════════════ -->
+<div class="step" id="step5">
+  <div class="step-header">
+    <span class="step-badge">Step 5</span>
+    <h2>Vulnerability Sub-indicators</h2>
+    <p>Compare the sub-categories under <strong>Vulnerability</strong>, then the indicators under each.</p>
+  </div>
+
+  <div class="scale-legend">
+    <h4>AHP Importance Scale</h4>
+    <div class="scale-items">
+      <div class="scale-item"><div class="scale-dot" style="background:#fdedec;color:#922b21">9</div> Extreme for LEFT</div>
+      <div class="scale-item"><div class="scale-dot" style="background:#eafaf1;color:#1e8449">1</div> Equal</div>
+      <div class="scale-item"><div class="scale-dot" style="background:#eaf4fb;color:#1a5276">9R</div> Extreme for RIGHT</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="comparison-section">
+      <h3>
+        <span style="color:var(--vulnerability)">●</span> Adaptive Capacity vs Sensitivity
+        <span class="level-tag" style="background:#f5eef8;color:#6c3483">Level 2</span>
+      </h3>
+      <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:18px;">1 comparison · 2×2 matrix</p>
+      <div id="pairs-vuln"></div>
+      <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+        <button class="btn btn-check" onclick="checkCR('vuln', 2)">🔍 Check Consistency</button>
+      </div>
+      <div class="cr-box" id="cr-vuln"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="comparison-section">
+      <h3>
+        <span style="color:var(--adaptive)">●</span> Adaptive Capacity Indicators
+        <span class="level-tag" style="background:#eafaf1;color:#1e8449">Level 3</span>
+      </h3>
+      <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:18px;">10 comparisons · 5×5 matrix</p>
+      <div id="pairs-adaptive"></div>
+      <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+        <button class="btn btn-check" onclick="checkCR('adaptive', 5)">🔍 Check Consistency</button>
+      </div>
+      <div class="cr-box" id="cr-adaptive"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="comparison-section">
+      <h3>
+        <span style="color:var(--sensitivity)">●</span> Sensitivity Indicators
+        <span class="level-tag" style="background:#fef5ec;color:#d35400">Level 3</span>
+      </h3>
+      <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:18px;">1 comparison · 2×2 matrix</p>
+      <div id="pairs-sensitivity"></div>
+      <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;">
+        <button class="btn btn-check" onclick="checkCR('sensitivity', 2)">🔍 Check Consistency</button>
+      </div>
+      <div class="cr-box" id="cr-sensitivity"></div>
+    </div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn btn-secondary" onclick="goStep(4)">← Back</button>
+    <button class="btn btn-primary" onclick="goStep(6)">Review & Submit →</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     STEP 6 — REVIEW & SUBMIT
+══════════════════════════════════════ -->
+<div class="step" id="step6">
+  <div class="step-header">
+    <span class="step-badge">Step 6</span>
+    <h2>Review & Submit</h2>
+    <p>Review the derived priority weights before submitting. All consistency ratios must be acceptable (CR &lt; 0.10) to submit.</p>
+  </div>
+
+  <div class="card" id="summaryCard">
+    <p style="color:var(--text-muted);font-size:0.9rem;">Click "Compute Summary" to see your priority weights.</p>
+    <button class="btn btn-check" style="margin-top:14px" onclick="buildSummary()">📊 Compute Summary</button>
+    <div id="summaryContent" style="margin-top:20px;"></div>
+  </div>
+
+  <div class="nav-row">
+    <button class="btn btn-secondary" onclick="goStep(5)">← Back</button>
+    <button class="btn btn-submit" id="submitBtn" onclick="submitSurvey()">✔ Submit to Drive</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     STEP 7 — SUCCESS
+══════════════════════════════════════ -->
+<div class="step" id="step7">
+  <div class="card success-wrap">
+    <div class="success-icon">✅</div>
+    <h2>Thank You!</h2>
+    <p>Your responses have been successfully recorded. The research team will review your expert inputs for the Heat Risk Index assessment of Chennai, Mumbai, Delhi, and Kolkata.</p>
+    <p style="font-family:'Space Mono',monospace;font-size:0.78rem;color:var(--text-muted);margin-top:6px;" id="submissionId"></p>
+  </div>
+</div>
+
+</main>
+
+<div id="toast"></div>
+
+<script>
+// ══════════════════════════════════════
+//  CONFIG — paste your Apps Script URL here
+// ══════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQdKTVgJbnu7h_J9U3Xl_YGqasbdTWSosJ2NfoHV4PQykvEjwV3hR_MM66dBvhoL9c/exec';
+
+// ══════════════════════════════════════
+//  AHP DATA DEFINITIONS
+// ══════════════════════════════════════
+const GROUPS = {
+  l1: {
+    label: 'Main Criteria',
+    items: ['Heat Hazard', 'Exposure', 'Vulnerability'],
+  },
+  hazard: {
+    label: 'Heat Hazard Sub-indicators',
+    items: ['Land Surface Temperature (LST)', 'Universal Thermal Climate Index (UTCI)'],
+  },
+  exposure: {
+    label: 'Exposure Sub-indicators',
+    items: ['Population Density', 'Building Density'],
+  },
+  vuln: {
+    label: 'Vulnerability Sub-categories',
+    items: ['Adaptive Capacity', 'Sensitivity'],
+  },
+  adaptive: {
+    label: 'Adaptive Capacity Indicators',
+    items: ['Wealth Index', 'Night Time Lights', 'Healthcare Infrastructure Density', 'NDVI (Green Infrastructure)', 'Proximity to Water Bodies'],
+  },
+  sensitivity: {
+    label: 'Sensitivity Indicators',
+    items: ['Age Sensitive Population', 'Slums'],
+  },
+};
+
+// Random Index for n = 1..10
+const RI = [0, 0, 0, 0.58, 0.90, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49];
+
+// Stored values keyed by groupId → pairIndex → value (positive means left>right, negative means right>left)
+const VALUES = {};
+
+// CR status per group
+const CR_STATUS = {};
+
+// ══════════════════════════════════════
+//  BUILD PAIR SLIDERS
+// ══════════════════════════════════════
+function buildPairs(groupId, containerId) {
+  const { items } = GROUPS[groupId];
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  if (!VALUES[groupId]) VALUES[groupId] = {};
+
+  const n = items.length;
+  let idx = 0;
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      const pairIdx = idx;
+      // Default to 1 (equal) = slider center = 0 on scale -8..8
+      const stored = VALUES[groupId][pairIdx] ?? 0;
+
+      const div = document.createElement('div');
+      div.className = 'comparison-pair';
+      div.innerHTML = `
+        <div class="pair-labels">
+          <div class="pair-label">${items[i]}</div>
+          <div class="pair-vs">vs</div>
+          <div class="pair-label right">${items[j]}</div>
+        </div>
+        <div class="slider-wrap">
+          <div class="slider-labels">
+            <span>9 ← ${items[i]}</span>
+            <span>Equal</span>
+            <span>${items[j]} → 9</span>
+          </div>
+          <input type="range" class="ahp-slider" min="-8" max="8" step="1"
+            value="${stored}"
+            id="slider_${groupId}_${pairIdx}"
+            oninput="onSlider('${groupId}', ${pairIdx}, this.value, '${items[i]}', '${items[j]}', 'val_${groupId}_${pairIdx}')"/>
+          <div class="slider-value-display" id="val_${groupId}_${pairIdx}">${sliderLabel(stored, items[i], items[j])}</div>
+        </div>
+      `;
+      container.appendChild(div);
+      idx++;
+    }
+  }
+}
+
+function sliderLabel(v, left, right) {
+  v = parseInt(v);
+  if (v === 0) return '⟺  Equal importance (1)';
+  const ratio = v > 0 ? (v + 1) : '1/' + (-v + 1);
+  const dominant = v > 0 ? left : right;
+  const intensity = Math.abs(v);
+  const words = ['','','Moderately','','Strongly','','Very Strongly','','Extremely'];
+  return `${words[intensity] || ''} more important: <strong>${dominant}</strong> [${ratio}]`;
+}
+
+function onSlider(groupId, pairIdx, val, left, right, displayId) {
+  VALUES[groupId][pairIdx] = parseInt(val);
+  document.getElementById(displayId).innerHTML = sliderLabel(val, left, right);
+  // Clear CR when values change
+  const crBox = document.getElementById('cr-' + groupId);
+  if (crBox) { crBox.className = 'cr-box'; crBox.innerHTML = ''; }
+  CR_STATUS[groupId] = null;
+}
+
+// ══════════════════════════════════════
+//  BUILD MATRIX FROM SLIDER VALUES
+// ══════════════════════════════════════
+function buildMatrix(groupId) {
+  const { items } = GROUPS[groupId];
+  const n = items.length;
+  const matrix = Array.from({length:n}, () => Array(n).fill(1));
+
+  let idx = 0;
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      const v = VALUES[groupId]?.[idx] ?? 0;
+      let ratio;
+      if (v === 0) ratio = 1;
+      else if (v > 0) ratio = v + 1;        // left > right
+      else ratio = 1 / (-v + 1);            // right > left
+      matrix[i][j] = ratio;
+      matrix[j][i] = 1 / ratio;
+      idx++;
+    }
+  }
+  return matrix;
+}
+
+// ══════════════════════════════════════
+//  AHP MATH
+// ══════════════════════════════════════
+function computeWeights(matrix) {
+  const n = matrix.length;
+  // Column sums
+  const colSums = Array(n).fill(0);
+  for (let j = 0; j < n; j++)
+    for (let i = 0; i < n; i++)
+      colSums[j] += matrix[i][j];
+  // Normalize
+  const norm = matrix.map(row => row.map((v, j) => v / colSums[j]));
+  // Priority vector (row means)
+  const weights = norm.map(row => row.reduce((a, b) => a + b, 0) / n);
+  return weights;
+}
+
+function computeLambdaMax(matrix, weights) {
+  const n = matrix.length;
+  let lam = 0;
+  for (let i = 0; i < n; i++) {
+    let sum = 0;
+    for (let j = 0; j < n; j++) sum += matrix[i][j] * weights[j];
+    lam += sum / weights[i];
+  }
+  return lam / n;
+}
+
+function computeCR(matrix) {
+  const n = matrix.length;
+  if (n <= 2) return { cr: 0, ci: 0, lambda: n, weights: computeWeights(matrix) };
+  const weights = computeWeights(matrix);
+  const lambda = computeLambdaMax(matrix, weights);
+  const ci = (lambda - n) / (n - 1);
+  const ri = RI[n] || 1.49;
+  const cr = ci / ri;
+  return { cr, ci, lambda, weights };
+}
+
+// ══════════════════════════════════════
+//  CHECK CONSISTENCY
+// ══════════════════════════════════════
+function checkCR(groupId, n) {
+  const matrix = buildMatrix(groupId);
+  const { cr, weights } = computeCR(matrix);
+  const crBox = document.getElementById('cr-' + groupId);
+
+  let html = '';
+  if (n <= 2) {
+    // 2x2 is always consistent
+    crBox.className = 'cr-box ok';
+    html = `<span class="cr-icon">✅</span><div class="cr-text">
+      <strong>Consistent (2×2 matrix — always consistent)</strong>
+      Derived weights: ${GROUPS[groupId].items.map((it,i) => `${it}: <b>${(weights[i]*100).toFixed(1)}%</b>`).join(' | ')}
+    </div>`;
+    CR_STATUS[groupId] = 'ok';
+  } else if (cr < 0.1) {
+    crBox.className = 'cr-box ok';
+    html = `<span class="cr-icon">✅</span><div class="cr-text">
+      <strong>Consistent! CR = ${cr.toFixed(4)} (< 0.10)</strong>
+      Your judgements are acceptably consistent. You may proceed.
+    </div>`;
+    CR_STATUS[groupId] = 'ok';
+  } else if (cr < 0.15) {
+    crBox.className = 'cr-box warn';
+    html = `<span class="cr-icon">⚠️</span><div class="cr-text">
+      <strong>Marginal consistency. CR = ${cr.toFixed(4)} (0.10–0.15)</strong>
+      Consider revising some comparisons for better consistency.
+    </div>`;
+    CR_STATUS[groupId] = 'warn';
+  } else {
+    crBox.className = 'cr-box fail';
+    html = `<span class="cr-icon">❌</span><div class="cr-text">
+      <strong>Inconsistent! CR = ${cr.toFixed(4)} (> 0.15)</strong>
+      Please revise your comparisons. Your judgements are contradictory. Tip: Check that if A > B and B > C, then A > C.
+    </div>`;
+    CR_STATUS[groupId] = 'fail';
+  }
+  crBox.innerHTML = html;
+}
+
+// ══════════════════════════════════════
+//  SUMMARY
+// ══════════════════════════════════════
+function buildSummary() {
+  const groups = ['l1','hazard','exposure','vuln','adaptive','sensitivity'];
+  let html = '';
+  for (const gid of groups) {
+    const matrix = buildMatrix(gid);
+    const { cr, weights } = computeCR(matrix);
+    const items = GROUPS[gid].items;
+    const n = items.length;
+    const crLabel = n <= 2 ? 'N/A (2×2)' : cr.toFixed(4);
+    const crColor = n <= 2 ? 'var(--accent3)' : cr < 0.1 ? 'var(--accent3)' : cr < 0.15 ? 'var(--accent2)' : 'var(--accent)';
+
+    html += `
+      <div style="margin-bottom:28px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <strong style="font-size:0.95rem;">${GROUPS[gid].label}</strong>
+          <span style="font-family:'Space Mono',monospace;font-size:0.78rem;color:${crColor};font-weight:700;">CR = ${crLabel}</span>
+        </div>
+        <table class="weights-table">
+          <thead><tr><th>Indicator</th><th>Weight</th><th>Bar</th></tr></thead>
+          <tbody>
+            ${items.map((it,i) => `
+              <tr>
+                <td>${it}</td>
+                <td style="font-family:'Space Mono',monospace;font-weight:700;">${(weights[i]*100).toFixed(2)}%</td>
+                <td style="min-width:120px;"><div class="weight-bar-bg"><div class="weight-bar-fill" style="width:${(weights[i]*100).toFixed(1)}%"></div></div></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  document.getElementById('summaryContent').innerHTML = html;
+  // Animate bars
+  setTimeout(() => {
+    document.querySelectorAll('.weight-bar-fill').forEach(el => {
+      el.style.width = el.style.width; // trigger reflow
+    });
+  }, 50);
+}
+
+// ══════════════════════════════════════
+//  SUBMIT
+// ══════════════════════════════════════
+async function submitSurvey() {
+  const btn = document.getElementById('submitBtn');
+
+  // Check all CRs
+  const groups = ['l1','hazard','exposure','vuln','adaptive','sensitivity'];
+  for (const gid of groups) {
+    const matrix = buildMatrix(gid);
+    const { cr } = computeCR(matrix);
+    const n = GROUPS[gid].items.length;
+    if (n > 2 && cr >= 0.15) {
+      showToast(`❌ "${GROUPS[gid].label}" has CR = ${cr.toFixed(3)} which is too high. Please go back and revise.`);
+      return;
+    }
+  }
+
+  // Collect all data
+  const payload = {
+    timestamp: new Date().toISOString(),
+    expert: {
+      name: document.getElementById('expertName').value,
+      designation: document.getElementById('expertDesig').value,
+      institution: document.getElementById('expertInst').value,
+      department: document.getElementById('expertDept').value,
+      email: document.getElementById('expertEmail').value,
+      experience: document.getElementById('expertExp').value,
+    },
+    matrices: {},
+    weights: {},
+    cr: {},
+  };
+
+  for (const gid of groups) {
+    const matrix = buildMatrix(gid);
+    const { cr, weights } = computeCR(matrix);
+    payload.matrices[gid] = matrix;
+    payload.weights[gid] = weights;
+    payload.cr[gid] = cr;
+  }
+
+  btn.innerHTML = '<span class="spinner"></span> Submitting…';
+  btn.classList.add('btn-disabled');
+
+  try {
+    if (APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+      // Demo mode — simulate submission
+      await new Promise(r => setTimeout(r, 1500));
+      console.log('PAYLOAD (demo):', JSON.stringify(payload, null, 2));
+      showToast('⚠️ Demo mode: data logged to console. Set APPS_SCRIPT_URL to save to Drive.');
+      goStep(7);
+      document.getElementById('submissionId').textContent = 'Demo submission ID: ' + Date.now();
+      return;
+    }
+
+    const res = await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (data.status === 'ok') {
+      goStep(7);
+      document.getElementById('submissionId').textContent = 'Submission ID: ' + (data.id || Date.now());
+    } else {
+      throw new Error(data.message || 'Server error');
+    }
+  } catch (e) {
+    showToast('❌ Submission failed: ' + e.message);
+    btn.innerHTML = '✔ Submit to Drive';
+    btn.classList.remove('btn-disabled');
+  }
+}
+
+// ══════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════
+const STEP_PROGRESS = ['16%','32%','48%','64%','80%','96%','100%'];
+const STEP_LABELS = ['1 of 6','2 of 6','3 of 6','4 of 6','5 of 6','6 of 6','Complete'];
+
+function goStep(n) {
+  // Validate step 1
+  if (n === 2) {
+    const name = document.getElementById('expertName').value.trim();
+    const desig = document.getElementById('expertDesig').value.trim();
+    const inst = document.getElementById('expertInst').value.trim();
+    if (!name || !desig || !inst) {
+      showToast('⚠️ Please fill in Name, Designation, and Institution.');
+      return;
+    }
+  }
+
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step' + n).classList.add('active');
+  document.getElementById('progressFill').style.width = STEP_PROGRESS[n-1];
+  document.getElementById('progressLabel').textContent = 'Step ' + STEP_LABELS[n-1];
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ══════════════════════════════════════
+//  TOAST
+// ══════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4500);
+}
+
+// ══════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════
+buildPairs('l1', 'pairs-l1');
+buildPairs('hazard', 'pairs-hazard');
+buildPairs('exposure', 'pairs-exposure');
+buildPairs('vuln', 'pairs-vuln');
+buildPairs('adaptive', 'pairs-adaptive');
+buildPairs('sensitivity', 'pairs-sensitivity');
+</script>
+</body>
+</html>
