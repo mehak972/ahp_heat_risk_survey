@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Heat Risk Index — AHP Expert Survey</title>
+<title>Heat Risk Index of Indian Metropolitan Cities — AHP Expert Survey</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
   :root {
@@ -62,12 +62,12 @@
 
   header h1 {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     letter-spacing: -0.3px;
   }
 
   header p {
-    font-size: 0.78rem;
+    font-size: 0.8rem;
     color: rgba(245,240,232,0.6);
     font-family: 'Space Mono', monospace;
     margin-top: 2px;
@@ -84,7 +84,7 @@
 
   .progress-label {
     font-family: 'Space Mono', monospace;
-    font-size: 0.72rem;
+    font-size: 0.8rem;
     color: rgba(245,240,232,0.7);
   }
 
@@ -129,7 +129,7 @@
   .step-badge {
     display: inline-block;
     font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     padding: 4px 10px;
     border-radius: 20px;
     background: var(--text);
@@ -141,7 +141,7 @@
 
   .step-header h2 {
     font-family: 'DM Serif Display', serif;
-    font-size: 2rem;
+    font-size: 2.4rem;
     line-height: 1.2;
     color: var(--text);
     margin-bottom: 8px;
@@ -149,7 +149,7 @@
 
   .step-header p {
     color: var(--text-muted);
-    font-size: 0.92rem;
+    font-size: 0.96rem;
     line-height: 1.6;
     max-width: 600px;
   }
@@ -175,7 +175,7 @@
 
   .field label {
     display: block;
-    font-size: 0.82rem;
+    font-size: 0.88rem;
     font-weight: 600;
     color: var(--text-muted);
     margin-bottom: 6px;
@@ -190,7 +190,7 @@
     border-radius: 8px;
     background: var(--bg);
     font-family: 'DM Sans', sans-serif;
-    font-size: 0.95rem;
+    font-size: 0.98rem;
     color: var(--text);
     transition: border-color 0.2s;
     outline: none;
@@ -210,7 +210,7 @@
   }
 
   .scale-legend h4 {
-    font-size: 0.8rem;
+    font-size: 0.88rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.8px;
@@ -229,7 +229,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.8rem;
+    font-size: 0.88rem;
     color: var(--text-muted);
   }
 
@@ -238,7 +238,7 @@
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
+    font-size: 0.76rem;
     font-weight: 700;
     flex-shrink: 0;
   }
@@ -250,7 +250,7 @@
 
   .comparison-section h3 {
     font-family: 'DM Serif Display', serif;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     margin-bottom: 6px;
     display: flex;
     align-items: center;
@@ -259,7 +259,7 @@
 
   .level-tag {
     font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
+    font-size: 0.68rem;
     padding: 3px 8px;
     border-radius: 4px;
     font-weight: 700;
@@ -289,7 +289,7 @@
 
   .pair-label {
     font-weight: 600;
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     max-width: 200px;
     line-height: 1.3;
   }
@@ -298,7 +298,7 @@
 
   .pair-vs {
     font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
     background: var(--bg);
     border: 1px solid var(--border);
@@ -316,7 +316,7 @@
     display: flex;
     justify-content: space-between;
     font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
     margin-bottom: 6px;
   }
@@ -350,11 +350,34 @@
     text-align: center;
     margin-top: 10px;
     font-family: 'Space Mono', monospace;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     font-weight: 700;
     color: var(--text);
     min-height: 20px;
   }
+  .info-toggle {
+  font-size: 0.75rem;
+  color: var(--accent);
+  cursor: pointer;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.info-box {
+  display: none;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.info-box.active {
+  display: block;
+}
 
   /* CR RESULT BOX */
   .cr-box {
@@ -389,7 +412,7 @@
     display: flex;
   }
 
-  .cr-icon { font-size: 1.4rem; }
+  .cr-icon { font-size: 1.6rem; }
 
   .cr-text strong { display: block; font-weight: 600; margin-bottom: 2px; }
 
@@ -567,8 +590,8 @@
 <header>
   <div class="header-icon">🌡️</div>
   <div>
-    <h1>Heat Risk Index — AHP Expert Survey</h1>
-    <p>GIS-based MCDM Framework · Chennai, Mumbai, Delhi, Kolkata</p>
+    <h1>Heat Risk Index of Indian Metropolitan Cities  — AHP Expert Survey</h1>
+    <p>GIS-based MCDM Framework for Urban Heat Risk Assessment</p>
   </div>
   <div class="progress-bar-wrap">
     <span class="progress-label" id="progressLabel">Step 1 of 6</span>
@@ -596,7 +619,7 @@
       </div>
       <div class="field">
         <label>Designation / Title *</label>
-        <input type="text" id="expertDesig" placeholder="e.g. Professor, Senior Scientist"/>
+        <input type="text" id="expertDesig" placeholder="e.g. Professor, Research Analyst"/>
       </div>
       <div class="field">
         <label>Institution / Organisation *</label>
@@ -908,6 +931,70 @@ const GROUPS = {
   },
 };
 
+function getInfoText(item) {
+  const info = {
+
+    // MAIN CRITERIA
+    "Heat Hazard":
+      "Heat Hazard refers to the potential to cause harm due to extreme thermal conditions, driven by environmental factors such as temperature, radiation, and surface characteristics.",
+
+    "Exposure":
+      "Exposure represents the presence of people, infrastructure, and assets in areas prone to heat hazard, indicating the potential for loss, damage, or adverse impacts.",
+
+    "Vulnerability":
+      "Vulnerability captures the susceptibility of populations to heat stress, influenced by socio-economic conditions, infrastructure, and demographic characteristics.",
+
+    // HEAT HAZARD INDICATORS
+    "LST":
+      "Land Surface Temperature (LST) measures the temperature of the Earth’s surface using satellite data and reflects the intensity of urban heat islands.",
+
+    "UTCI":
+      "Universal Thermal Climate Index (UTCI) represents the human-perceived temperature, integrating air temperature, humidity, wind speed, and radiation to assess thermal stress on the human body.",
+
+    // EXPOSURE
+    "Population Density":
+      "Population Density indicates the concentration of people in a given area, representing the scale of human exposure to heat hazards.",
+
+    "Building Density":
+      "Building Density reflects the concentration of built-up structures, influencing heat retention and the extent of exposed infrastructure.",
+
+    // VULNERABILITY
+    "Adaptive Capacity":
+      "Adaptive Capacity refers to the ability of individuals or systems to adjust, cope, and recover from heat stress through resources, infrastructure, and services.",
+
+    "Sensitivity":
+      "Sensitivity indicates how severely populations are affected by heat, based on biological, social, and living conditions.",
+
+    // ADAPTIVE CAPACITY INDICATORS
+    "Wealth Index":
+      "Wealth Index represents the economic status of households, influencing their ability to access cooling, healthcare, and adaptive resources.",
+
+    "Night Time Lights":
+      "Night Time Lights represent economic activity and infrastructure development, used as a proxy for electrification (electrification proxy).",
+
+    "Healthcare Infrastructure Density":
+      "Healthcare Infrastructure Density reflects the availability and accessibility of healthcare services to respond to heat-related illnesses.",
+
+    "NDVI":
+      "Normalized Difference Vegetation Index (NDVI) measures vegetation cover, which contributes to cooling and reduces heat stress in urban areas.",
+
+    "MNDWI":
+      "Modified Normalized Difference Water Index (MNDWI) identifies surface water bodies, which play a role in cooling and moderating local temperatures.",
+
+    "Proximity to Water Bodies":
+      "Proximity to Water Bodies indicates how close an area is to lakes, rivers, or other water sources that provide localized cooling effects.",
+
+    // SENSITIVITY
+    "Age Sensitive Population":
+      "Age Sensitive Population includes vulnerable age groups such as children and the elderly, who are more susceptible to heat-related health risks.",
+
+    "Slums":
+      "Slums represent informal settlements with poor housing, limited services, and high exposure, making residents more vulnerable to heat stress."
+  };
+
+  return info[item] || "";
+}
+  
 // Random Index for n = 1..10
 const RI = [0, 0, 0, 0.58, 0.90, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49];
 
@@ -956,6 +1043,15 @@ function buildPairs(groupId, containerId) {
             ${sliderLabel(stored, items[i], items[j])}
           </div>
 
+          <div class="info-toggle" onclick="toggleInfo('info_${groupId}_${pairIdx}')">
+            ℹ️ See more
+          </div>
+
+          <div class="info-box" id="info_${groupId}_${pairIdx}">
+            ${getInfoText(items[i])}<br><br>
+            ${getInfoText(items[j])}
+          </div>
+
           <p style="text-align:center;font-size:0.72rem;color:#888;margin-top:6px;">
             Interpretation: moving left → <strong>${items[i]}</strong> dominates,
             moving right → <strong>${items[j]}</strong> dominates
@@ -978,6 +1074,11 @@ function sliderLabel(v, left, right) {
     </span>`;
   }
 
+  function toggleInfo(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('active');
+  }
+  
   const absV = Math.abs(v);
   const ahpVal = absV + 1;
 
