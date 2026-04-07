@@ -981,8 +981,8 @@ function sliderLabel(v, left, right) {
   const absV = Math.abs(v);
   const ahpVal = absV + 1;
 
-  const dominant = v > 0 ? left : right;
-  const weaker   = v > 0 ? right : left;
+  const dominant = v < 0 ? left : right;
+  const weaker   = v < 0 ? right : left;
 
   const words = ['','','Moderately','','Strongly','','Very Strongly','','Extremely'];
   const intensity = words[absV] || '';
