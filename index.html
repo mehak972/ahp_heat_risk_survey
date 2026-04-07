@@ -307,11 +307,11 @@
   }
 
   .pair-labels {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-  }
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ }
 
   .pair-label {
     font-weight: 600;
@@ -323,13 +323,14 @@
   .pair-label.right { text-align: right; }
 
   .pair-vs {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 2px 8px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface2);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  border: 1px solid var(--border);
   }
 
   /* SLIDER TRACK */
@@ -339,14 +340,19 @@
   }
 
   .slider-labels {
-    display: flex;
-    justify-content: space-between;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    margin-bottom: 6px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
   }
 
+  .slider-labels span:nth-child(2) {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  }
+  
   .ahp-slider {
     -webkit-appearance: none;
     appearance: none;
@@ -971,10 +977,10 @@ function getInfoText(item) {
       "Vulnerability captures the susceptibility of populations to heat stress, influenced by socio-economic conditions, infrastructure, and demographic characteristics.",
 
     // HEAT HAZARD INDICATORS
-    "LST":
+    "Land Surface Temperature (LST)":
       "Land Surface Temperature (LST) measures the temperature of the Earth’s surface using satellite data and reflects the intensity of urban heat islands.",
 
-    "UTCI":
+    "Universal Thermal Climate Index (UTCI)":
       "Universal Thermal Climate Index (UTCI) represents the human-perceived temperature, integrating air temperature, humidity, wind speed, and radiation to assess thermal stress on the human body.",
 
     // EXPOSURE
@@ -1001,7 +1007,7 @@ function getInfoText(item) {
     "Healthcare Infrastructure Density":
       "Healthcare Infrastructure Density reflects the availability and accessibility of healthcare services to respond to heat-related illnesses.",
 
-    "NDVI":
+    "NDVI (Green Infrastructure)":
       "Normalized Difference Vegetation Index (NDVI) measures vegetation cover, which contributes to cooling and reduces heat stress in urban areas.",
 
     "Proximity to Water Bodies":
