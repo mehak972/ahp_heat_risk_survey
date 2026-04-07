@@ -27,6 +27,32 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  .info-icon {
+  margin-left: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: var(--accent);
+}
+
+.info-icon:hover {
+  opacity: 0.7;
+}
+
+.info-box {
+  display: none;
+  background: #f8f9fa;
+  border-left: 3px solid var(--accent);
+  padding: 8px 10px;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: #555;
+  border-radius: 6px;
+}
+
+.info-box.active {
+  display: block;
+}
+
   body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
@@ -978,9 +1004,6 @@ function getInfoText(item) {
     "NDVI":
       "Normalized Difference Vegetation Index (NDVI) measures vegetation cover, which contributes to cooling and reduces heat stress in urban areas.",
 
-    "MNDWI":
-      "Modified Normalized Difference Water Index (MNDWI) identifies surface water bodies, which play a role in cooling and moderating local temperatures.",
-
     "Proximity to Water Bodies":
       "Proximity to Water Bodies indicates how close an area is to lakes, rivers, or other water sources that provide localized cooling effects.",
 
@@ -993,6 +1016,11 @@ function getInfoText(item) {
   };
 
   return info[item] || "";
+}
+
+function toggleSingleInfo(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('active');
 }
   
 // Random Index for n = 1..10
@@ -1025,10 +1053,24 @@ function buildPairs(groupId, containerId) {
       div.className = 'comparison-pair';
       div.innerHTML = `
         <div class="pair-labels">
-          <div class="pair-label">${items[i]}</div>
-          <div class="pair-vs">vs</div>
-          <div class="pair-label right">${items[j]}</div>
+          <div class="pair-label">
+            ${items[i]}
+            <span class="info-icon" onclick="toggleSingleInfo('info_left_${groupId}_${pairIdx}')">ℹ️</span>
+            <div class="info-box" id="info_left_${groupId}_${pairIdx}">
+              ${getInfoText(items[i])}
+            </div>
+          </div>
+
+      <div class="pair-vs">vs</div>
+
+      <div class="pair-label right">
+        ${items[j]}
+        <span class="info-icon" onclick="toggleSingleInfo('info_right_${groupId}_${pairIdx}')">ℹ️</span>
+        <div class="info-box" id="info_right_${groupId}_${pairIdx}">
+          ${getInfoText(items[j])}
         </div>
+      </div>
+    </div>
         <div class="slider-wrap">
           <div class="slider-labels">
             <span>9 ← ${items[i]}</span>
@@ -1041,15 +1083,6 @@ function buildPairs(groupId, containerId) {
             oninput="onSlider('${groupId}', ${pairIdx}, this.value, '${items[i]}', '${items[j]}', 'val_${groupId}_${pairIdx}')"/>
           <div class="slider-value-display" id="val_${groupId}_${pairIdx}">
             ${sliderLabel(stored, items[i], items[j])}
-          </div>
-
-          <div class="info-toggle" onclick="toggleInfo('info_${groupId}_${pairIdx}')">
-            ℹ️ See more
-          </div>
-
-          <div class="info-box" id="info_${groupId}_${pairIdx}">
-            ${getInfoText(items[i])}<br><br>
-            ${getInfoText(items[j])}
           </div>
 
           <p style="text-align:center;font-size:0.72rem;color:#888;margin-top:6px;">
