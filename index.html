@@ -650,6 +650,8 @@
       <div class="scale-item"><div class="scale-dot" style="background:#eafaf1;color:#1e8449">1</div> Equal importance</div>
     </div>
     <p style="margin-top:10px;font-size:0.78rem;color:var(--text-muted)">Slider center = Equal (1). Moving left = LEFT criterion is more important. Moving right = RIGHT criterion is more important. Values 1/2, 1/3… 1/9 mean the right side is preferred.</p>
+    <p style="margin-top:6px;font-size:0.78rem;color:#555;"><strong>Note:</strong> Moving the slider toward an indicator means it is more important. The system automatically converts your input into AHP matrix values (including reciprocals).
+    </p>
   </div>
 
   <div class="card">
@@ -950,23 +952,49 @@ function buildPairs(groupId, containerId) {
             value="${stored}"
             id="slider_${groupId}_${pairIdx}"
             oninput="onSlider('${groupId}', ${pairIdx}, this.value, '${items[i]}', '${items[j]}', 'val_${groupId}_${pairIdx}')"/>
-          <div class="slider-value-display" id="val_${groupId}_${pairIdx}">${sliderLabel(stored, items[i], items[j])}</div>
-        </div>
-      `;
-      container.appendChild(div);
-      idx++;
+          <div class="slider-value-display" id="val_${groupId}_${pairIdx}">
+            ${sliderLabel(stored, items[i], items[j])}
+          </div>
+
+          <p style="text-align:center;font-size:0.72rem;color:#888;margin-top:6px;">
+            Interpretation: moving left → <strong>${items[i]}</strong> dominates,
+            moving right → <strong>${items[j]}</strong> dominates
+          </p>
+              </div>
+            `;
+        container.appendChild(div);
+        idx++;
     }
   }
 }
 
 function sliderLabel(v, left, right) {
   v = parseInt(v);
-  if (v === 0) return '⟺  Equal importance (1)';
-  const ratio = v > 0 ? (v + 1) : '1/' + (-v + 1);
+
+  if (v === 0) {
+    return `↔ <strong>Equal importance</strong><br>
+    <span style="font-size:0.75rem;color:#777;">
+      Matrix: ${left} = ${right}
+    </span>`;
+  }
+
+  const absV = Math.abs(v);
+  const ahpVal = absV + 1;
+
   const dominant = v > 0 ? left : right;
-  const intensity = Math.abs(v);
+  const weaker   = v > 0 ? right : left;
+
   const words = ['','','Moderately','','Strongly','','Very Strongly','','Extremely'];
-  return `${words[intensity] || ''} more important: <strong>${dominant}</strong> [${ratio}]`;
+  const intensity = words[absV] || '';
+
+  return `
+    <strong style="color:var(--accent)">${dominant}</strong> is 
+    <em>${intensity}</em> more important than ${weaker}<br>
+    <span style="font-size:0.75rem;color:#777;">
+      AHP = ${ahpVal} &nbsp; | &nbsp;
+      Matrix: ${dominant} / ${weaker} = ${ahpVal}
+    </span>
+  `;
 }
 
 function onSlider(groupId, pairIdx, val, left, right, displayId) {
